@@ -410,7 +410,7 @@ sub color {
 		} elsif ($name =~ m:^L?(java|javax|jdk|net|org|com|io|sun)/:) {	# Java
 			$type = "green";
 		} elsif ($name =~ /:::/) {      # Java, typical perf-map-agent method separator
-			$type = "green";	              
+			$type = "green";
 		} elsif ($name =~ /::/) {	# C++
 			$type = "yellow";
 		} elsif ($name =~ m:_\[k\]$:) {	# kernel annotation
@@ -614,6 +614,10 @@ foreach (<>) {
 		# there may be an extra samples column for differentials
 		# XXX todo: redo these REs as one. It's repeated below.
 		my($stack, $samples) = (/^(.*)\s+?(\d+(?:\.\d*)?)$/);
+		unless (defined $samples and defined $stack) {
+			++$ignored;
+			next;
+		}
 		my $samples2 = undef;
 		if ($stack =~ /^(.*)\s+?(\d+(?:\.\d*)?)$/) {
 			$samples2 = $samples;
